@@ -7,30 +7,58 @@ use models::post::Post;
 
 
 fn main() {
-    println!("Hello, world!");
-    let user = User::new("Alice".to_string(), 1);
-    let message = "Hello, world!".to_string();
+    println!("Welcome to Rust Social");
+    println!("To get started, create the first user!");
+    println!("Enter your name:");
 
-    let post = Post::new(message, user.clone(), 7);
+    let mut name = String::new();
+
+    std::io::stdin().read_line(&mut name).unwrap();
+
+    let name = name.trim().to_string();
+
+    let user = User::new(name, 1);
+
 
     let mut db = Database::new();
     db.add_user(user);
-    db.add_post(post);
 
-    db.write_to_file("db.json").unwrap();
+    println!("User created! Now the main menu.");
 
-    let post = db.get_post(2);
+    loop {
+        println!("1. Create a post");
+        println!("2. View all posts");
+        println!("3. Exit");
 
-    match post {
-        Ok(post) => {
-            println!("Post: {}", post.get_content());
-            println!("Author: {}", post.get_author().get_name());
-        },
-        Err(e) => {
-            println!("Error: {}", e);
+        let mut choice = String::new();
+
+        std::io::stdin().read_line(&mut choice).unwrap();
+
+        let choice = choice.trim();
+
+        match choice {
+            "1" => {
+                println!("Enter your post:");
+                let mut content = String::new();
+                std::io::stdin().read_line(&mut content).unwrap();
+                let content = content.trim().to_string();
+                let user = db.get_user_by_id(1).unwrap().clone();
+                let post = Post::new(content, user, 1);
+                db.add_post(post);
+                println!("Post created!");
+            }
+            "2" => {
+                for post in db.get_posts().iter() {
+                    println!("{}: {}", post.get_author().get_name(), post.get_content());
+                }
+            }
+            "3" => {
+                println!("Goodbye!");
+                break;
+            }
+            _ => {
+                println!("Invalid choice. Please try again.");
+            }
         }
     }
-
-    // remove file
-    std::fs::remove_file("db.json").unwrap();
 }

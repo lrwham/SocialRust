@@ -44,6 +44,10 @@ impl Database {
         }
     }
 
+    pub fn get_posts(&self) -> &Vec<Post> {
+        &self.posts
+    }
+
     /// Write to file
     pub fn write_to_file(&self, filename: &str) -> std::io::Result<()> {
         let mut file = std::fs::File::create(filename)?;
