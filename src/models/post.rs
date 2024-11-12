@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use crate::user::User;
+use crate::models::user::User;
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct Post {
