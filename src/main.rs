@@ -30,4 +30,7 @@ fn main() {
             println!("Error: {}", e);
         }
     }
+
+    // remove file
+    std::fs::remove_file("db.json").unwrap();
 }

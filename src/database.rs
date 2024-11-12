@@ -52,3 +52,29 @@ impl Database {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_write_to_file() {
+        let mut db = Database::new();
+        let user = User::new("Alice".to_string(), 1);
+        let post = Post::new("Hello, world!".to_string(), user.clone(), 7);
+        db.add_user(user);
+        db.add_post(post.clone());
+        db.write_to_file("test.json").unwrap();
+        let file = std::fs::read_to_string("test.json").unwrap();
+        let db2: Database = serde_json::from_str(&file).unwrap();
+
+        // convert to JSON string
+        let db = serde_json::to_string(&db).unwrap();
+        let db2 = serde_json::to_string(&db2).unwrap();
+
+        assert_eq!(db, db2);
+
+        // remove file
+        std::fs::remove_file("test.json").unwrap();
+    }
+}
