@@ -4,8 +4,8 @@ use crate::models::user::User;
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Database{
-    pub users: Vec<User>,
-    pub posts: Vec<Post>,
+    users: Vec<User>,
+    posts: Vec<Post>,
 }
 
 impl Database {
@@ -20,6 +20,16 @@ impl Database {
         self.users.push(user);
     }
 
+    #[allow(dead_code)]
+    pub fn get_user_by_id(&self, id: i32) -> Option<&User> {
+        // find if user is in vec
+        for user in &self.users {
+            if user.get_id() == id {
+                return Some(user);
+            }
+        }
+        None
+    }
     pub fn add_post(&mut self, post: Post) {
         self.posts.push(post);
     }

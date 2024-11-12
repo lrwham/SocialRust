@@ -2,8 +2,8 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Serialize, Deserialize)]
 pub struct User {
-    pub name: String,
-    pub id: i32,
+    name: String,
+    id: i32,
 }
 
 impl User {
@@ -12,5 +12,15 @@ impl User {
             name,
             id,
         }
+    }
+
+    #[allow(dead_code)]
+    pub fn get_id(&self) -> i32 {
+        self.id
+    }
+
+    #[allow(dead_code)]
+    pub fn get_name(&self) -> String {
+        self.name.clone()
     }
 }
