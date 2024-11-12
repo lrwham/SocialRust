@@ -1,7 +1,6 @@
 mod models;
 mod database;
 
-use std::io::Write;
 use database::Database;
 use models::user::User;
 use models::post::Post;
